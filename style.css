@@ -1,0 +1,82 @@
+body {
+    margin: 0;
+    /* Clear the default margin of the body */
+    position: fixed;
+    /* Make the body always occupy the full screen */
+    min-width: 480px;
+    width: 100%;
+    height: 100%;
+}
+.container {
+    position: relative;
+    width: 100%;
+    top: 50%;
+    margin: 0;
+}
+.board {
+    width: 480px;
+    height: 480px;
+    position: relative;
+    top: 50%;
+    transform: translateY(-36%);
+    /*Center the board vertically*/
+    
+    margin-left: auto;
+    margin-right: auto;
+    /*Center the board horizontally*/
+}
+.word {
+    font-size: 3em;
+    min-height: 2.125em;
+    width: 100%;
+    position: absolute;
+    top: calc(-36% - 2.125em - (100% - 36% - 2.125em)/6);
+    /* Center the .word above the board */
+    
+    background-color: rgba(255, 67, 46, 0.25);
+}
+@font-face {
+    font-family: "Museo Sans Rounded";
+    src: url(https://s3-us-west-2.amazonaws.com/dgmde15slush/museosansrounded-300-webfont.ttf) format("truetype");
+}
+.cell {
+    text-align: center;
+    font-family: "Museo Sans Rounded", sans-serif;
+    text-transform: uppercase;
+    /* Make all our letters uppercase */
+    
+    font-size: 3em;
+    line-height: 2.125em;
+}
+.board .cell {
+    position: absolute;
+    width: calc(100%/5);
+    height: calc(100%/5);
+    /* Set the width and height of cells for a 5x5 board */
+    
+    display: inline-block;
+    /* We want the divs to sit alongside one another */
+}
+.word .cell {
+    font-size: 1em;
+    height: 100%;
+    width: 1.5em;
+    float: left;
+    /* When the .cells are in .word, we want them to slide to the left, alongside each other */
+}
+.board .cell:nth-child(even) {
+    background-color: rgba(240, 239, 236, 0.5);
+    /*
+	Style cells which are the even-numbered children of .board 
+	You can read more at https://developer.mozilla.org/en-US/docs/Web/CSS/:nth-child
+	and https://css-tricks.com/almanac/selectors/n/nth-child/
+	*/
+}
+.board .cell:nth-child(odd) {
+    background-color: rgba(240, 239, 236, 1);
+    /*
+	Style cells which are the odd-numbered children of .board
+	You can read more at https://developer.mozilla.org/en-US/docs/Web/CSS/:nth-child
+	and https://css-tricks.com/almanac/selectors/n/nth-child/
+	*/
+}
