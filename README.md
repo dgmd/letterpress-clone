@@ -2,7 +2,9 @@
 
 ![Letterpress screenshot](http://www.wired.com/images_blogs/gamelife/2012/11/letterpress.png)
 
-As part of our exploration of making games, we're going to be looking at an approach to organizing your code called "object oriented programming."  You can read more about the approach and technical aspects of what's entailed [in _Eloquent JavaScript_](http://eloquentjavascript.net/1st_edition/chapter3.html) and [on Mozilla's Developer Network](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Introduction_to_Object-Oriented_JavaScript).
+We're going to be building out our own riffs (initially digital, then physical) on [Letterpress](http://www.atebits.com/letterpress/)—a game I like a lot for the iPhone.  You can download and play it yourself, or check out a demo [here](https://www.youtube.com/watch?v=eCe_LdqAVTM).
+
+In this context, we're going to be looking at an approach to organizing your code called "object oriented programming."  You can read more about the approach and technical aspects of what's entailed [in _Eloquent JavaScript_](http://eloquentjavascript.net/1st_edition/chapter3.html) and [on Mozilla's Developer Network](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Introduction_to_Object-Oriented_JavaScript).
 
 As we build out Letterpress, you'll be hearing a lot more about it, but initially, we wanted to explore a smaller version of Letterpress's functionality to use as we begin to wrap our heads around what's going on.
 
