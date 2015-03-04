@@ -1,4 +1,4 @@
-var Board = function(cells) {
+var Board = function() {
     var me = this; // 'this' can point to many, different things, so we grab an easy reference to the object
     // You can read more about 'this' at:
     // MDN: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/this
@@ -28,6 +28,9 @@ var Board = function(cells) {
         playedLetters.forEach(function(letter) {
             grid.appendChild(letter); // because of how we styled them, appendChild does the Right Thing
         });
+
+        word.classList.remove('valid');
+        word.classList.remove('invalid');
     });
 
     // And save my synthesized HTML
@@ -94,9 +97,17 @@ var Board = function(cells) {
 
     Object.defineProperty(this, 'currentWordValid', {
         get: function() { 
-            console.log("Checking", me.currentWord);
             return this.isWord(me.currentWord); }
     });
+
+    var initCells = [];
+    for (var i = 0; i < 5*5; i++) {
+        var cell = new Cell();
+        cell.letter = me.randomLetter();
+        initCells.push(cell);
+    }; // Make an array of 5*5 = 25 new Cell objects
+
+    me.cells = initCells; // and load the cells into the board
 
     return this;
 };
@@ -107,6 +118,24 @@ Board.prototype.isWord = function(word) {
     }
     else {
         console.log("ERROR: Letterpress dictionary isn't loaded.");
+    }
+};
+
+Board.prototype.randomLetter = function() {
+    // Took frequencies from https://en.wikipedia.org/wiki/Letter_frequency#Relative_frequencies_of_letters_in_the_English_language
+    var frequencies = { 'a': 8.167,  'b': 1.492,  'c': 2.782,  'd': 4.253,  'e': 12.702,  'f': 2.228,  'g': 2.015,  'h': 6.094,  'i': 6.966,  'j': 0.153,  'k': 0.772,  'l': 4.025,  'm': 2.406,  'n': 6.749,  'o': 7.507,  'p': 1.929,  'q': 0.095,  'r': 5.987,  's': 6.327,  't': 9.056,  'u': 2.758,  'v': 0.978,  'w': 2.360,  'x': 0.150,  'y': 1.974,  'z': 0.074 };
+    var total = Object.keys(frequencies).map(function(l) { return frequencies[l]; }).reduce(function(a,b) { return a + b; });
+
+    var random = Math.random() * total;
+
+    var sum = 0;
+    for (var letter in frequencies) {
+        if (random < sum) {
+            return letter;
+        }
+        else {
+            sum += frequencies[letter];
+        }
     }
 };
 
