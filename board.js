@@ -28,6 +28,7 @@ var Board = function(cells) {
     // And save my synthesized HTML
     this.html = html;
 
+    var _cells;
     Object.defineProperty(this, 'cells', {
         // Custom getters and setters; you can read more about this at:
         // MDN: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperty
