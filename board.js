@@ -18,6 +18,18 @@ var Board = function(cells) {
     // The word tray
     var word = document.querySelector('.word');
 
+    // The reset button
+    var reset = document.getElementById('reset');
+    reset.addEventListener('click', function(event) { // When we click reset
+        // Grab all the played letters and convert them to an array
+        var playedLetters = Array.prototype.slice.call(document.querySelectorAll('.tray .cell'));
+
+        // And then iterate over them and put them back in the board
+        playedLetters.forEach(function(letter) {
+            grid.appendChild(letter); // because of how we styled them, appendChild does the Right Thing
+        });
+    });
+
     // And save my synthesized HTML
     this.html = html;
 

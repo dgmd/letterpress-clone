@@ -38,6 +38,20 @@ body {
 
     background-color: rgba(255, 67, 46, 0.25);
 }
+.tray #reset {
+    position: absolute;
+    left: 0.375em;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+}
+.tray #reset {
+    color: grey;
+}
+.tray #reset:hover {
+    transition: 0.5s;
+    color: #555;
+}
 .word {
     display: inline-block; /* Necessary to be affected by text-align in .tray */
     margin-left: auto;
