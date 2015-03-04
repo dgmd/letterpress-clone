@@ -93,7 +93,9 @@ var Board = function(cells) {
     });
 
     Object.defineProperty(this, 'currentWordValid', {
-        get: function() { return this.isWord(me.currentWord); }
+        get: function() { 
+            console.log("Checking", me.currentWord);
+            return this.isWord(me.currentWord); }
     });
 
     return this;
@@ -101,7 +103,7 @@ var Board = function(cells) {
 
 Board.prototype.isWord = function(word) {
     if (letterpressDictionary) {
-        return letterpressDictionary.indexOf(word) != -1;
+        return letterpressDictionary.indexOf(word.toLowerCase()) != -1;
     }
     else {
         console.log("ERROR: Letterpress dictionary isn't loaded.");
@@ -120,7 +122,7 @@ Board.prototype.handleEvent = function(event) {
 
         if (this.currentWordValid) {
             word.classList.add('valid');
-            word.classList.remove('valid');
+            word.classList.remove('invalid');
         }
         else {
             word.classList.add('invalid');

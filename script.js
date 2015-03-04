@@ -5,7 +5,7 @@ window.addEventListener('load', function() { // When everything is loaded
     var cells = [];
     for (var i = 0; i < 5*5; i++) {
         var cell = new Cell();
-        cell.letter = 'L';
+        cell.letter = String.fromCharCode(Math.random()*26 + 65);
         cells.push(cell);
     }; // Make an array of 5*5 = 25 new Cell objects
 

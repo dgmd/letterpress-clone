@@ -70,8 +70,9 @@ body {
 .invalid.word .invalid.status-display {
     visibility: visible;
 }
-.vaild.word .vaild.status-display {
+.valid.word .valid.status-display {
     visibility: visible;
+    cursor: pointer;
 }
 @font-face {
     font-family: "Museo Sans Rounded";
