@@ -47,6 +47,9 @@ var Board = function(cells) {
                 // We want it to dispatch an event to me
                 cell.html.addEventListener('cellSubmit', me);
 
+                // Label the cells even or odd for checkerboard styling
+                cell.html.classList.add(index % 2 ? 'even' : 'odd');
+
                 // Then actually move my HTML into the word tray
                 me.html.querySelector('.board').appendChild(cell.html);
             });

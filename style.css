@@ -64,7 +64,7 @@ body {
     float: left;
     /* When the .cells are in .word, we want them to slide to the left, alongside each other */
 }
-.board .cell:nth-child(even) {
+.board .cell.even {
     background-color: rgba(240, 239, 236, 0.5);
     /*
 	Style cells which are the even-numbered children of .board 
@@ -72,7 +72,7 @@ body {
 	and https://css-tricks.com/almanac/selectors/n/nth-child/
 	*/
 }
-.board .cell:nth-child(odd) {
+.board .cell.odd {
     background-color: rgba(240, 239, 236, 1);
     /*
 	Style cells which are the odd-numbered children of .board
