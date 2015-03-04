@@ -1,5 +1,6 @@
+var board;
 window.addEventListener('load', function() { // When everything is loaded
-    var board = new Board([]); // Create an empty board
+    board = new Board([]); // Create an empty board
 
     var cells = [];
     for (var i = 0; i < 5*5; i++) {

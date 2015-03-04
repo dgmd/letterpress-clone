@@ -92,7 +92,20 @@ var Board = function(cells) {
     	}
     });
 
+    Object.defineProperty(this, 'currentWordValid', {
+        get: function() { return this.isWord(me.currentWord); }
+    });
+
     return this;
+};
+
+Board.prototype.isWord = function(word) {
+    if (letterpressDictionary) {
+        return letterpressDictionary.indexOf(word) != -1;
+    }
+    else {
+        console.log("ERROR: Letterpress dictionary isn't loaded.");
+    }
 };
 
 // We want our Board to be able to respond to events— in particular, the cellSubmit event we made
@@ -105,7 +118,13 @@ Board.prototype.handleEvent = function(event) {
         var incomingCell = event.detail.cell; // and the cell which has been submitted
         word.appendChild(incomingCell.html); // and put the cell's html into the tray
 
-        // And then print the board's currentWord out to the console
-        console.log("The current word is: ", "'", this.currentWord, "'");
+        if (this.currentWordValid) {
+            word.classList.add('valid');
+            word.classList.remove('valid');
+        }
+        else {
+            word.classList.add('invalid');
+            word.classList.remove('valid');
+        }
     }
 };
