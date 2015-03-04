@@ -10,20 +10,13 @@ var Board = function(cells) {
     this.height = 5;
 
     // Make the HTML that represents me:
-    var html = document.createElement('div');
-    html.classList.add('container');
+    var html = document.querySelector('.container');
 
     // The board itself
-    var grid = document.createElement('div');
-    grid.classList.add('board');
+    var grid = document.querySelector('.board');
 
     // The word tray
-    var word = document.createElement('div');
-    word.classList.add('word');
-
-    // Add both of them to my HTML container
-    html.appendChild(word);
-    html.appendChild(grid);
+    var word = document.querySelector('.word');
 
     // And save my synthesized HTML
     this.html = html;
