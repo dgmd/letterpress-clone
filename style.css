@@ -25,15 +25,23 @@ body {
     margin-right: auto;
     /*Center the board horizontally*/
 }
-.word {
+
+.tray {
     font-size: 3em;
     min-height: 2.125em;
     width: 100%;
     position: absolute;
     top: calc(-36% - 2.125em - (100% - 36% - 2.125em)/6);
-    /* Center the .word above the board */
-    
+    /* Center the .word vertically above the board */
+    text-align: center;
+    /* Center the .word horizontally within the board */
+
     background-color: rgba(255, 67, 46, 0.25);
+}
+.word {
+    display: inline-block; /* Necessary to be affected by text-align in .tray */
+    margin-left: auto;
+    margin-right: auto;
 }
 @font-face {
     font-family: "Museo Sans Rounded";
