@@ -1,8 +1,10 @@
 body {
     margin: 0;
     /* Clear the default margin of the body */
+    
     position: fixed;
     /* Make the body always occupy the full screen */
+    
     min-width: 480px;
     width: 100%;
     height: 100%;
@@ -25,7 +27,6 @@ body {
     margin-right: auto;
     /*Center the board horizontally*/
 }
-
 .tray {
     font-size: 3em;
     min-height: 2.125em;
@@ -33,29 +34,44 @@ body {
     position: absolute;
     top: calc(-36% - 2.125em - (100% - 36% - 2.125em)/6);
     /* Center the .word vertically above the board */
+    
     text-align: center;
     /* Center the .word horizontally within the board */
-
+    
     background-color: rgba(255, 67, 46, 0.25);
 }
-.tray #reset {
+.tray i {
     position: absolute;
-    left: 0.375em;
     top: 50%;
     transform: translateY(-50%);
-    cursor: pointer;
 }
 .tray #reset {
+    left: 0.375em;
+    cursor: pointer;
+}
+.tray i {
     color: grey;
 }
-.tray #reset:hover {
+.tray i:hover {
     transition: 0.5s;
     color: #555;
 }
 .word {
-    display: inline-block; /* Necessary to be affected by text-align in .tray */
+    display: inline-block;
+    /* Necessary to be affected by text-align in .tray */
+    
     margin-left: auto;
     margin-right: auto;
+}
+.word i.status-display {
+    visibility: hidden;
+    right: 0.375em;
+}
+.invalid.word .invalid.status-display {
+    visibility: visible;
+}
+.vaild.word .vaild.status-display {
+    visibility: visible;
 }
 @font-face {
     font-family: "Museo Sans Rounded";
@@ -89,16 +105,16 @@ body {
 .board .cell.even {
     background-color: rgba(240, 239, 236, 0.5);
     /*
-	Style cells which are the even-numbered children of .board 
-	You can read more at https://developer.mozilla.org/en-US/docs/Web/CSS/:nth-child
-	and https://css-tricks.com/almanac/selectors/n/nth-child/
-	*/
+    Style cells which are the even-numbered children of .board 
+    You can read more at https://developer.mozilla.org/en-US/docs/Web/CSS/:nth-child
+    and https://css-tricks.com/almanac/selectors/n/nth-child/
+    */
 }
 .board .cell.odd {
     background-color: rgba(240, 239, 236, 1);
     /*
-	Style cells which are the odd-numbered children of .board
-	You can read more at https://developer.mozilla.org/en-US/docs/Web/CSS/:nth-child
-	and https://css-tricks.com/almanac/selectors/n/nth-child/
-	*/
+    Style cells which are the odd-numbered children of .board
+    You can read more at https://developer.mozilla.org/en-US/docs/Web/CSS/:nth-child
+    and https://css-tricks.com/almanac/selectors/n/nth-child/
+    */
 }
