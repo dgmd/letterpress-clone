@@ -20,7 +20,7 @@ var Board = function() {
     // The board itself
     this.grid = document.querySelector('.board');
 
-    // The word tray
+    // The word
     this.word = document.querySelector('.word');
 
     // An array to hold the cells played
@@ -241,4 +241,7 @@ Board.prototype.resetBoard = function() {
 Board.prototype.nextTurn = function() {
     // Swap the 0th and 1st elements of our this.players array
     this.players.push(this.players.shift());
+    var tray = document.querySelector('.tray');
+    tray.classList.add('player' + this.players[1].number);
+    tray.classList.add('player' + this.players[0].number);
 };
