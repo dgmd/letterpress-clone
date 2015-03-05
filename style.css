@@ -37,8 +37,12 @@ body {
     
     text-align: center;
     /* Center the .word horizontally within the board */
-    
+}
+.tray.player1 {
     background-color: rgba(255, 67, 46, 0.25);
+}
+.tray.player2 {
+    background-color: rgba(119, 200, 245, 0.25);
 }
 .tray i {
     position: absolute;
@@ -69,10 +73,14 @@ body {
 }
 .invalid.word .invalid.status-display {
     visibility: visible;
+    color: rgba(255, 128, 128, 1);
 }
 .valid.word .valid.status-display {
     visibility: visible;
     cursor: pointer;
+    color: rgba(128, 255, 128, 1);
+}
+.valid.word .valid.status-display {
 }
 @font-face {
     font-family: "Museo Sans Rounded";
@@ -118,4 +126,32 @@ body {
     You can read more at https://developer.mozilla.org/en-US/docs/Web/CSS/:nth-child
     and https://css-tricks.com/almanac/selectors/n/nth-child/
     */
+}
+.scoreboard {
+    position: absolute;
+    width: calc((100% - 480px)/2*0.9);
+    height: 480px;
+    top: calc(-36%);
+    font-family: "Museo Sans Rounded";
+}
+.scoreboard h3 {
+    width: 100%;
+    text-align: center;
+}
+#player1 {
+    left: 1.5%;
+    background-color: rgba(255, 67, 46, 0.125);
+}
+
+#player2 {
+    right: 1.5%;
+    background-color: rgba(119, 200, 245, 0.125);
+}
+
+.board .cell.player1, #player1 {
+    background-color: rgba(255, 67, 46, 0.375);
+}
+
+.board .cell.player2, #player2 {
+    background-color: rgba(119, 200, 245, 0.375);
 }
