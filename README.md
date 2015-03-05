@@ -10,53 +10,46 @@ As we build out Letterpress, you'll be hearing a lot more about it, but initiall
 
 Here are some initial extensions for this beginning sketch of Letterpress's functionality, arranged in order of increasing complexity.
 
-## Initial Extensions
+## Possible Extensions
 
-### Initializing the board with random letters
+> **Note that if you'd like to work on the previous, lighter-weight version of Letterpress and its extensions, you can!  Just `clone` this repository and then run `git checkout v0.1`—This will rewind the repository to the version from 26 February 2015 and you can check out the `README.md` for the extensions and work on that code, if you'd like!**
 
-Currently, the board is initialized with all `L`'s.  Letterpress initializes the board with semi-random letters.  They're not actually random, because that compromises the gameplay—so certain letters which are more likely to be helpful in creating words (_e.g._ vowels) are more likely to appear.
+### Display the score
 
-Before we get to implementing that nuance, we'll want a way to simply put random letters into the tiles.
-
----
-
-&#8618; Try writing a snippet of code in your console which gives you a random letter every time you run it.  If you have a chance, try wrapping that up as [a function](http://eloquentjavascript.net/1st_edition/chapter3.html) and using it to [change how we currently initialize all the cells to `L`](https://github.com/dgmde15/Letterpress/blob/gh-pages/script.js#L7).
-
-### Checking whether the tray currently contains a valid word
-
-At some point, we'll need to have the logic to check whether the word that is in the word tray is, in fact, a word.
-
-#### A couple notes on tooling 
-
-Fortunately, the creator of Letterpress, Loren Brichter, has [made available](https://github.com/atebits/Words.git) the dictionary of allowed words.
-
-Depending on how you approach this, you may want to have installed [node]() (basically, a version of JavaScript you can run in your terminal, without using your browser).  To do this, run `brew install node` in your terminal.  After that completes, you should be able to execute `node` in your terminal and see something like this:
-
-![node screenshot](http://dgmde15slush.s3.amazonaws.com/node-screenshot.png)
+Currently, although individual tiles are toggled depending on who currently 'owns' them, that does not update anything in the `Player` object, meaning that there's no functionality to calculate or display the score.
 
 ---
 
-&#8618; Try writing a function which, given a word, tells you whether that word is in Loren's dictionary or not.
+&#8618; Modify the code so that next to each player's title (in the `<h3>` within `.scoreboard`), there appears the current number of cells they own.  This should update every time a word is played.
 
-### Fixing the `nth-child` CSS behavior for alternating tiles
 
-You should notice a problem with the CSS styling of the board as you move tiles into the word tray—it changes and flickers…
+### Add the ability to reset and re-order individual letters
 
-![nth-child CSS bug](http://dgmde15slush.s3.amazonaws.com/nth-child_bug.gif)
-
-This is because [we use](https://github.com/dgmde15/Letterpress/blob/gh-pages/style.css#L67-L82) a pseudoselector in CSS called [`nth-child`](https://developer.mozilla.org/en-US/docs/Web/CSS/:nth-child).  `nth-child` lets you apply styling rules depending on what number child a given element is of its parent.  In our case, we use `:nth-child(even)` and `(odd)` to apply styling rules depending on whether a `.cell` is an even- or odd-numbered child of its parent (`.board`).  But because of [how we handle our `cellSubmit` event](https://github.com/dgmde15/Letterpress/blob/gh-pages/board.js#L97), we actually _move_ the node from `.board` to our word tray (`.word`), which screws with the ordering of our `cells` and who is even or odd.
+Currently, the only way to modify the staged word—_i.e._ the word you're drafting, before you submit it—is to hit the reset button, which sends all the tiles back to the board.  In the Real Deal, you can not only send individual letters back to the board by tapping on them, but drag to re-order the letters.
 
 ---
 
-&#8618; Try modifying the project so that the checkerboard styling is preserved, even as we put words into the word tray.
+&#8618; Modify the `Board` so that there's both the HTML/JS in place to let the user click on individual, played cells and send them back to the board _and_ the ability to drag the cells to re-order them.  Note that in both cases, you'll need to make sure any changes in the view (_i.e._ the HTML) are mirror in the `playedCells` attribute of `Board`; otherwise, the other functionality (_e.g._ checking the word) will break.
 
 
-### Resetting words from the word tray
+### Add the 'surrounded' behavior for cells
 
-You'll notice that [in the upper left-hand of the Letterpress screen](#cloning-letterpress) there is a "Clear" button which puts all the letters in the tray back on the board.
+Currently, cells can be:
+1. Owned by no-one
+2. Owned by Player 1 (indicated by the addition of `.player1` class)
+3. Owned by Player 2 (indicated by the addition of `.player2` class)
 
-In our implementation, doing this requires that the letters know where they lived to begin with.  Currently, for a Cell object, this is stored in two attributes, [`row` and `column`](https://github.com/dgmde15/Letterpress/blob/gh-pages/cell.js#L9-L10), which are set [by the Board when the cell is added](https://github.com/dgmde15/Letterpress/blob/gh-pages/board.js#L43-L46).
+But, the primary difference between Letterpress and say, Boggle, is that there is a notion of territoriality which comes not just from owning the cells, but surrounding them.  Those cells whose direct (_i.e._ not diagonal) neighbors are owned by the same player are 'surrounded' and therefore do not change owners even when played by your opponent.
 
 ---
 
-&#8618; Try adding a button somewhere on the page which, when clicked, moves the tiles back to their original positions within `.board`.
+&#8618; Modify the `Cell` object and `Board` to both calculate when a played cell becomes surrounded and record that fact in both the view (_i.e._ changing the background color of the surrounding cell) and the model (_i.e._ the cell object).
+
+
+### Add the ability to save and restore a game
+
+Eventually, we'll want to be able to have folks play on _two different computers_, or even better, _devices and/or physical interfaces_.  To do this, we need to find some way to completely store and represent the game state.  Often, when you do this by saving it to a file, it's called [serialization](https://en.wikipedia.org/wiki/Serialization).  As a precursor to transmitting game state, we'll want to add the ability to simply save and restore game state.
+
+---
+
+&#8618; Add a button which lets us save the entire state of the game to a text file.  You may find [`JSON.stringify`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify) an interesting place to start, perhaps followed up by posts like [this](https://stackoverflow.com/questions/3608545/how-to-serialize-deserialize-javascript-objects) and/or tools like [this](https://github.com/skeeto/resurrect-js).
