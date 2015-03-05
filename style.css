@@ -80,9 +80,7 @@ body {
     cursor: pointer;
     color: rgba(128, 255, 128, 1);
 }
-.valid.word .valid.status-display {
-}
-@font-face {
+.valid.word .valid.status-display {} @font-face {
     font-family: "Museo Sans Rounded";
     src: url(https://s3-us-west-2.amazonaws.com/dgmde15slush/museosansrounded-300-webfont.ttf) format("truetype");
 }
@@ -138,20 +136,20 @@ body {
     width: 100%;
     text-align: center;
 }
+.scoreboard li {
+    text-transform: uppercase;
+}
 #player1 {
     left: 1.5%;
     background-color: rgba(255, 67, 46, 0.125);
 }
-
 #player2 {
     right: 1.5%;
     background-color: rgba(119, 200, 245, 0.125);
 }
-
 .board .cell.player1, #player1 {
     background-color: rgba(255, 67, 46, 0.375);
 }
-
 .board .cell.player2, #player2 {
     background-color: rgba(119, 200, 245, 0.375);
 }
