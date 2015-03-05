@@ -15,7 +15,7 @@ var Board = function() {
     // Our array of players
     this.players = [new Player(1), new Player(2)];
     this.players.forEach(function(player) {
-        player.board = me;
+        player.board = me; // Register the board with the Players
     });
     // The board itself
     this.grid = document.querySelector('.board');
@@ -110,6 +110,7 @@ var Board = function() {
 
     Object.defineProperty(this, 'currentPlayer', {
         get: function() {
+            // We keep track of the current player by whomever's in the 0th position
             return this.players[0];
         }
     });
@@ -168,10 +169,14 @@ Board.prototype.randomLetter = function() {
         return frequencies[l];
     }).reduce(function(a, b) {
         return a + b;
-    });
+    }); // This should add up to nearly 100%, but this way we don't have to assume that
+    // This map/reduce pattern is common; you can read more about each at https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map and https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/Reduce
 
-    var random = Math.random() * total;
 
+    // Conceptually, we're setting up a line where different regions correspond to different letters; the length of the region is proportional to the frequency.  We're then going to grab a random number, look along the 'length' of our line, and find which region our random number lies in.  This means that more frequent letters occupy more of the line and are therefore more likely to be hit by our 'random number' dart.
+    var random = Math.random() * total; // Choose a random number
+
+    // And then find the region our random number corresponds to
     var sum = 0;
     for (var letter in frequencies) {
         if (random < sum) {
@@ -203,19 +208,16 @@ Board.prototype.handleEvent = function(event) {
     }
 };
 
-Board.prototype.switchPlayer = function() {
-    this.players.push(this.players.splice(0, 1)[0]);
-};
-
 Board.prototype.submitWord = function() {
+    // When there's a valid word, submit, award it, and then go to the next player
     var me = this;
     this.playedCells.forEach(function(cell) {
+        // Toggle who 'owns' the cells; note we're storing ownership in the HTML class, not the Cell object
         cell.html.classList.remove('player' + me.currentPlayer.number === 1 ? 1 : 2);
         cell.html.classList.add('player' + me.currentPlayer.number);
     });
-    var playedCells = this.playedCells.map(function(c) { return c.html.innerHTML; })
-    this.currentPlayer.award(this.currentWord);
-    this.nextTurn();
+    this.currentPlayer.award(this.currentWord); // Award the word
+    this.nextTurn(); // Switch to the next player
 };
 
 Board.prototype.resetBoard = function() {
@@ -229,12 +231,14 @@ Board.prototype.resetBoard = function() {
         me.grid.appendChild(letter); // because of how we styled them, appendChild does the Right Thing
     });
 
-    this.playedCells = [];
+    this.playedCells = []; // Empty the array holding the played cells
 
+    // Reset our validity indicator
     me.word.classList.remove('valid');
     me.word.classList.remove('invalid');
 };
 
 Board.prototype.nextTurn = function() {
+    // Swap the 0th and 1st elements of our this.players array
     this.players.push(this.players.shift());
 };
