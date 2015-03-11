@@ -12,6 +12,9 @@ var Cell = function() {
     // Which player owns me?
     this.owner = null;
 
+    // Connection to my board
+    this.board = null;
+
     // Let's make the HTML that'll display me
     me.html = document.createElement('div');
     me.html.classList.add('cell');
@@ -46,3 +49,22 @@ var Cell = function() {
 
     return this;
 };
+
+Object.defineProperty(Cell.prototype, 'neighbors', {
+    get: function() {
+        var me = this;
+        return this.board.cells.filter(function(cell) {
+            return (
+                (cell.row === me.row && Math.abs(cell.column - me.column) === 1) ||
+                (cell.column === me.column && Math.abs(cell.row - me.row) === 1)
+                );
+        });
+    }
+});
+
+Object.defineProperty(Cell.prototype, 'surrounded', {
+    get: function() {
+        var me = this;
+        return this.neighbors.every(function(c) { return c.owner != null && c.owner === me.owner; })
+    }
+});

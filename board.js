@@ -51,10 +51,13 @@ var Board = function() {
             return _cells;
         },
         set: function(array) {
+            var board = this;
             _cells = array; // When someone sets board.cells, save the array they give us in _cells
 
             // And then go through each cell
             _cells.forEach(function(cell, index) {
+                cell.board = board;
+
                 // Set its row and column
                 cell.row = Math.floor(index / me.width);
                 cell.column = index % me.width;
@@ -204,25 +207,25 @@ Board.prototype.handleEvent = function(event) {
 Board.prototype.submitWord = function() {
     // When there's a valid word, submit, award it, and then go to the next player
     var me = this;
-    this.playedCells.forEach(function(cell) {
-        cell.owner = me.currentWord.number;
-        // Toggle who 'owns' the cells; note we're storing ownership in the HTML class, not the Cell object
-        cell.html.classList.remove('player' + me.currentPlayer.number === 1 ? 1 : 2);
-        cell.html.classList.add('player' + me.currentPlayer.number);
-    });
     this.award(this.playedCells, this.currentPlayer); // Award the word
+    this.recalculateSurrounded();
     this.nextTurn(); // Switch to the next player
 };
 
 Board.prototype.award = function(wordCellArray, player) {
-    wordCellArray.forEach(function(cell) {
-        cell.owner = player.number;
-        cell.html.classList.remove('player' + (player.number === 1 ? '2' : '1'));
-        cell.html.classList.add('player' + player.number);
-    });
+    var board = this;
 
-    var winner = this.players.sort(function(p1, p2) {
-        return p1.score - p2.score; })[1];
+    wordCellArray.filter(function(cell) {
+        return !cell.surrounded; }).forEach(function(cell) {
+            cell.owner = player.number;
+            cell.html.classList.remove('player' + (player.number === 1 ? '2' : '1'));
+            cell.html.classList.add('player' + player.number);            
+        });
+
+    var winner = board.players.filter(function(player) {
+        return player.score === Math.max.apply(null, board.players.map(function(p) { return p.score; }));
+    })[0];
+
     player.addToScoreboard(this.currentWord);
     this.players.forEach(function(player) {
         if (player != winner) {
@@ -234,6 +237,17 @@ Board.prototype.award = function(wordCellArray, player) {
 
     winner.winning = true;
     winner.scoreboard.classList.add('winning');
+};
+
+Board.prototype.recalculateSurrounded = function () {
+    this.cells.forEach(function(c) {
+        if (c.surrounded) {
+            c.html.classList.add('surrounded');
+        }
+        else {
+            c.html.classList.remove('surrounded');
+        }
+    })
 };
 
 Board.prototype.resetBoard = function() {
@@ -255,9 +269,9 @@ Board.prototype.resetBoard = function() {
 };
 
 Board.prototype.nextTurn = function() {
+    var tray = document.querySelector('.tray');
+    tray.classList.remove('player' + this.currentPlayer.number);
     // Swap the 0th and 1st elements of our this.players array
     this.players.push(this.players.shift());
-    var tray = document.querySelector('.tray');
-    tray.classList.add('player' + this.players[1].number);
-    tray.classList.add('player' + this.players[0].number);
+    tray.classList.add('player' + this.currentPlayer.number);
 };
