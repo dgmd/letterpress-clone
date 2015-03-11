@@ -76,28 +76,22 @@ var Board = function() {
         }
     });
 
+    Object.defineProperty(this, 'cellsInPlay', {
+        get: function() {
+            var board = this;
+            var cellsHTML = Array.prototype.slice.call(document.querySelectorAll('.tray .word .cell'));
+            var cells = cellsHTML.map(function(cellHTML) {
+                return board.cells.filter(function(c) { return c.html === cellHTML; })[0];
+            });
+            return cells;
+        }
+    });
     Object.defineProperty(this, 'currentWord', {
         // We'll want a way to look at the word currently in the tray, so
         // we'll do that by looking at the HTML of all the cells in the tray and parsing it
         get: function() {
-            // When someone asks for board.curentWord
-
-            var cellsHTML = me.html.querySelectorAll('.word > .cell') // Grab all the .cell divs
-
-            // Convert it all to an array; you can read more about why we need to do this dumb thing at http://toddmotto.com/a-comprehensive-dive-into-nodelists-arrays-converting-nodelists-and-understanding-the-dom/
-            var cells = Array.prototype.slice.call(cellsHTML);
-
-            // And then grab the innerHTML of all the cells
-            // map applies a function to every element of an array; you can read more about it at https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map
-            var letters = cells.map(function(c) {
-                return c.innerHTML;
-            });
-
-            // and combine the letters into a word
-            // You can read more about join at https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/join
-            var word = letters.join('');
-
-
+            var word = this.cellsInPlay.map(function(c) { return c.html.innerHTML; }).join('');
+            console.log("think it", word);
             return word;
         }
     });
@@ -216,8 +210,21 @@ Board.prototype.submitWord = function() {
         cell.html.classList.remove('player' + me.currentPlayer.number === 1 ? 1 : 2);
         cell.html.classList.add('player' + me.currentPlayer.number);
     });
-    this.currentPlayer.award(this.currentWord); // Award the word
+    this.award(this.playedCells, this.currentPlayer); // Award the word
     this.nextTurn(); // Switch to the next player
+};
+
+Board.prototype.award = function(wordCellArray, player) {
+    wordCellArray.forEach(function(cell) {
+        console.log("REMOVING", 'player' + (player.number === 1 ? '2' : '1'), "FROM", cell.html.innerHTML);
+        cell.html.classList.remove('player' + (player.number === 1 ? '2' : '1'));
+        console.log("ADDING", 'player' + player.number, "TO", cell.html.innerHTML);
+        cell.html.classList.add('player' + player.number);
+    });
+
+    player.addToScoreboard(wordCellArray.map(function(cell) {
+        return cell.html.innerHTML;
+    }).join(''));
 };
 
 Board.prototype.resetBoard = function() {
