@@ -91,7 +91,6 @@ var Board = function() {
         // we'll do that by looking at the HTML of all the cells in the tray and parsing it
         get: function() {
             var word = this.cellsInPlay.map(function(c) { return c.html.innerHTML; }).join('');
-            console.log("think it", word);
             return word;
         }
     });
@@ -173,7 +172,7 @@ Board.prototype.randomLetter = function() {
     // And then find the region our random number corresponds to
     var sum = 0;
     for (var letter in frequencies) {
-        if (random < sum) {
+        if (random <= sum) {
             return letter;
         } else {
             sum += frequencies[letter];
@@ -206,6 +205,7 @@ Board.prototype.submitWord = function() {
     // When there's a valid word, submit, award it, and then go to the next player
     var me = this;
     this.playedCells.forEach(function(cell) {
+        cell.owner = me.currentWord.number;
         // Toggle who 'owns' the cells; note we're storing ownership in the HTML class, not the Cell object
         cell.html.classList.remove('player' + me.currentPlayer.number === 1 ? 1 : 2);
         cell.html.classList.add('player' + me.currentPlayer.number);
@@ -216,15 +216,24 @@ Board.prototype.submitWord = function() {
 
 Board.prototype.award = function(wordCellArray, player) {
     wordCellArray.forEach(function(cell) {
-        console.log("REMOVING", 'player' + (player.number === 1 ? '2' : '1'), "FROM", cell.html.innerHTML);
+        cell.owner = player.number;
         cell.html.classList.remove('player' + (player.number === 1 ? '2' : '1'));
-        console.log("ADDING", 'player' + player.number, "TO", cell.html.innerHTML);
         cell.html.classList.add('player' + player.number);
     });
 
-    player.addToScoreboard(wordCellArray.map(function(cell) {
-        return cell.html.innerHTML;
-    }).join(''));
+    var winner = this.players.sort(function(p1, p2) {
+        return p1.score - p2.score; })[1];
+    player.addToScoreboard(this.currentWord);
+    this.players.forEach(function(player) {
+        if (player != winner) {
+            player.scoreboard.classList.remove('winning');            
+        }
+        player.winning = false;
+        player.scoreboard.querySelector('.score').innerHTML = player.score;
+    });
+
+    winner.winning = true;
+    winner.scoreboard.classList.add('winning');
 };
 
 Board.prototype.resetBoard = function() {

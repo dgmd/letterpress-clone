@@ -9,6 +9,9 @@ var Cell = function() {
     this.row = null;
     this.column = null;
 
+    // Which player owns me?
+    this.owner = null;
+
     // Let's make the HTML that'll display me
     me.html = document.createElement('div');
     me.html.classList.add('cell');

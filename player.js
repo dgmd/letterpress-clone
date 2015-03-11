@@ -20,3 +20,10 @@ Player.prototype.addToScoreboard = function(word) {
     this.scoreboard.querySelector('.played-words').appendChild(holder);
     this.board.resetBoard(); // Once we award a word, reset the board
 };
+
+Object.defineProperty(Player.prototype, 'score', {
+	get: function() {
+		var me = this;
+		return me.board.cells.filter(function(c) { return c.owner === me.number; }).length;
+	}
+});

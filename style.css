@@ -137,8 +137,21 @@ body {
     width: 100%;
     text-align: center;
 }
+.scoreboard.winning h3 {
+    text-transform: uppercase;
+    color: rgba(67, 255, 46, 1);
+}
 .scoreboard li {
     text-transform: uppercase;
+}
+.scoreboard .score:empty {
+    visibility: hidden;
+}
+.scoreboard .score:before {
+    content: "(";
+}
+.scoreboard .score:after {
+    content: ")";
 }
 #player1 {
     left: 1.5%;
