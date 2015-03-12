@@ -12,41 +12,36 @@ Here are some initial extensions for this beginning sketch of Letterpress's func
 
 ## Possible Extensions
 
-> **Note that if you'd like to work on the previous, lighter-weight version of Letterpress and its extensions, you can!  Just `clone` this repository and then run `git checkout v0.1`—This will rewind the repository to the version from 26 February 2015 and you can check out the `README.md` for the extensions and work on that code, if you'd like!**
+> **Note that if you'd like to work on the previous, lighter-weight versions of Letterpress and its extensions, you can!  Just `clone` this repository and then run `git checkout v0.1` (the version from 26 February 2015) or `git checkout v0.2` (the version from 5 March 2015) and you can check out the `README.md` for the extensions and work on that code, if you'd like!**
 
-### Display the score
+### Improve the rejection of previously played words
 
-Currently, although individual tiles are toggled depending on who currently 'owns' them, that does not update anything in the `Player` object, meaning that there's no functionality to calculate or display the score.
-
----
-
-&#8618; Modify the code so that next to each player's title (in the `<h3>` within `.scoreboard`), there appears the current number of cells they own.  This should update every time a word is played.
-
-
-### Add the ability to reset and re-order individual letters
-
-Currently, the only way to modify the staged word—_i.e._ the word you're drafting, before you submit it—is to hit the reset button, which sends all the tiles back to the board.  In the Real Deal, you can not only send individual letters back to the board by tapping on them, but drag to re-order the letters.
+Currently, there is only a slight indication that the word sitting in the tray has been played previously.  It's both ghosted out and you are, of course, prevented from submitting it.  This isn't great, because it's unclear why it's ghosted out.  To fix this, you might consider also ghosting out the previously played word in the scoreboards, or even better maybe having something dynamic which draws the user's attention to that word (_e.g._ a ghosting fading in and out).
 
 ---
 
-&#8618; Modify the `Board` so that there's both the HTML/JS in place to let the user click on individual, played cells and send them back to the board _and_ the ability to drag the cells to re-order them.  Note that in both cases, you'll need to make sure any changes in the view (_i.e._ the HTML) are mirror in the `playedCells` attribute of `Board`; otherwise, the other functionality (_e.g._ checking the word) will break.
+&#8618; Add some sort of UI affordance which more clearly communicates why a previously played word in the tray can't be submitted.  You may find [this introduction to CSS animations useful](https://developer.mozilla.org/en-US/docs/Web/Guide/CSS/Using_CSS_animations) if you'd like to animate the previously played word in some way.
 
 
-### Add the 'surrounded' behavior for cells
+### Make it possible to reset pieces individually
 
-Currently, cells can be:
-1. Owned by no-one
-2. Owned by Player 1 (indicated by the addition of `.player1` class)
-3. Owned by Player 2 (indicated by the addition of `.player2` class)
-
-But, the primary difference between Letterpress and say, Boggle, is that there is a notion of territoriality which comes not just from owning the cells, but surrounding them.  Those cells whose direct (_i.e._ not diagonal) neighbors are owned by the same player are 'surrounded' and therefore do not change owners even when played by your opponent.
+Currently, the only way to get pieces out of the tray is to reset the entire tray using the reset button in the upper left.  This is annoying if you accidentally put one letter in the tray you don't mean to.  There should be a way to send individual letters back, minimally by clicking, and perhaps also by dragging.
 
 ---
 
-&#8618; Modify the `Cell` object and `Board` to both calculate when a played cell becomes surrounded and record that fact in both the view (_i.e._ changing the background color of the surrounding cell) and the model (_i.e._ the cell object).
+&#8618; Add the ability to remove individual, submitted letters from the tray by either clicking on them or dragging and dropping them back on the board.  For the clicking behavior, you may find [this, related example](https://gist.github.com/aresnick/f08279e380a06020c9b3#file-return-when-you-click-me-html) helpful.  For the drag and drop behavior, you may find [this, minimal drag & drop example](https://gist.github.com/aresnick/f08279e380a06020c9b3#file-drag-drop-html) helpful.
 
 
-### Add the ability to save and restore a game
+### Make it possible to re-order and re-shuffle individual, played tiles
+
+Right now, if I put letters in the tray in the wrong order, I have to reset the entire tray to correct this mistake.  Instead, I should clearly be able to reorder the tiles in the tray by dragging them around.
+
+---
+
+&#8618; Add the ability to drag tiles around to re-order and re-shuffle them.  If you decide to use the `draggable` attribute, you may find [this, minimal example](https://gist.github.com/aresnick/f08279e380a06020c9b3#file-drag-drop-html) helpful.  Less comlpex (but less versatile) is to use the actual geometry of how the mouse moves around.  You may find [this example](https://gist.github.com/aresnick/f08279e380a06020c9b3#file-drag-to-reorder-html) of this technique useful.
+
+
+### Add the ability to the serialize game state
 
 Eventually, we'll want to be able to have folks play on _two different computers_, or even better, _devices and/or physical interfaces_.  To do this, we need to find some way to completely store and represent the game state.  Often, when you do this by saving it to a file, it's called [serialization](https://en.wikipedia.org/wiki/Serialization).  As a precursor to transmitting game state, we'll want to add the ability to simply save and restore game state.
 
