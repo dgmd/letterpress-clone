@@ -18,6 +18,7 @@ Player.prototype.addToScoreboard = function(word) {
 
     // Note that this.scoreboard is accessed through a custom getter; it doesn't exist in the constructor
     this.scoreboard.querySelector('.played-words').appendChild(holder);
+    this.wordsPlayed.push(word);
     this.board.resetBoard(); // Once we award a word, reset the board
 };
 

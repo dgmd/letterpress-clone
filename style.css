@@ -85,6 +85,9 @@ body {
     font-family: "Museo Sans Rounded";
     src: url(https://s3-us-west-2.amazonaws.com/dgmde15slush/museosansrounded-300-webfont.ttf) format("truetype");
 }
+.played .cell {
+    opacity: 0.5;
+}
 .cell {
     text-align: center;
     font-family: "Museo Sans Rounded", sans-serif;

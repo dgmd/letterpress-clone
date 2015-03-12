@@ -98,6 +98,15 @@ var Board = function() {
         }
     });
 
+    Object.defineProperty(this, 'currentWordPlayedPreviously', {
+        get: function() {
+            var wordsPlayed = this.players.map(function(player) {
+                return player.wordsPlayed;
+            }).reduce(function(a,b) { return a.concat(b); });
+            return wordsPlayed.indexOf(me.currentWord) !== -1;
+        }
+    });
+
     Object.defineProperty(this, 'currentWordValid', {
         get: function() {
             return this.isWord(me.currentWord);
@@ -194,12 +203,17 @@ Board.prototype.handleEvent = function(event) {
         this.playedCells.push(incomingCell);
         word.appendChild(incomingCell.html); // and put the cell's html into the tray
 
-        if (this.currentWordValid) {
+        ['played', 'invalid', 'valid'].forEach(function(classToReset) {
+            word.classList.remove(classToReset);
+        }); // reset the indicators of validity
+
+        if (this.currentWordValid  && !this.currentWordPlayedPreviously) {
             word.classList.add('valid');
-            word.classList.remove('invalid');
         } else {
+            if (this.currentWordPlayedPreviously) {
+                word.classList.add('played'); // add a class to indicate a word's been played previously
+            }
             word.classList.add('invalid');
-            word.classList.remove('valid');
         }
     }
 };
